@@ -2,7 +2,6 @@ package com.gitgud.actortemplateapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,10 +26,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Created by Nick on 1-4-2017.
  */
 
-public class SignInActivity extends AppCompatActivity implements
+public class GoogleSignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    private static final String TAG = "SignInActivity";
+    private static final String TAG = "GoogleSignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private SignInButton mSignInButton;
@@ -119,10 +118,10 @@ public class SignInActivity extends AppCompatActivity implements
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            startActivity(new Intent(GoogleSignInActivity.this, MainActivity.class));
                             finish();
                         }
                     }

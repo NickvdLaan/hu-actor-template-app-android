@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +27,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
+
+    // EntriesAdapter for viewing projects
     private String mUsername;
     private String mPhotoUrl;
     private String TAG = "MainActivity";
+    private RecyclerView recyclerView;
+    private EntriesAdapter mAdapter;
 
     public static final String ANONYMOUS = "anonymous";
     private GoogleApiClient mGoogleApiClient;
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
-            startActivity(new Intent(this, SignInActivity.class));
+            startActivity(new Intent(this, GoogleSignInActivity.class));
             finish();
             return;
         } else {
@@ -68,6 +75,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
+
+        // Authorized with Google. Now we need to load the projects for this user
+        //add a OnItemClickListener
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new EntriesAdapter();
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
 
     }
 
@@ -93,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             mFirebaseAuth.signOut();
             Auth.GoogleSignInApi.signOut(mGoogleApiClient);
             mUsername = ANONYMOUS;
-            startActivity(new Intent(this, SignInActivity.class));
+            startActivity(new Intent(this, GoogleSignInActivity.class));
             return true;
         }
 

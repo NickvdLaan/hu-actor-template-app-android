@@ -3,4 +3,5 @@
     <string name="sign_in">Inloggen</string>
     <string name="action_settings">Instellingen</string>
     <string name="sign_out">Uitloggen</string>
+    <string name="title_activity_content_pager">ContentPager</string>
 </resources>
