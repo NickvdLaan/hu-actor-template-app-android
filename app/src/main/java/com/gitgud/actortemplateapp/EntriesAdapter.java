@@ -21,9 +21,8 @@ public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, Entrie
     @Override
     protected void populateViewHolder(MyViewHolder viewHolder, ProjectEntry model, int position) {
         viewHolder.title.setText(model.getName());
-        Date date = new Date(model.getDate());
-        String datedata = DateFormat.format("MMM dd, yyyy h:mmaa", date).toString();
-        viewHolder.dateText.setText(datedata);
+        String createdAt = model.getCreatedAt();
+        viewHolder.dateText.setText(createdAt);
         viewHolder.entry = model;
         viewHolder.key = getRef(position).getKey();
     }
@@ -42,9 +41,12 @@ public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, Entrie
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(v.getContext(), ContentPager.class);
-
-            intent.putExtra("pos", getAdapterPosition());
+            String datedata = entry.getCreatedAt();
+            Intent intent = new Intent(v.getContext(), ShowContent.class);
+            intent.putExtra("title", entry.getName());
+            intent.putExtra("content", entry.getDescription());
+            intent.putExtra("recorddate", datedata);
+            intent.putExtra("key", key);
             v.getContext().startActivity(intent);
         }
     }

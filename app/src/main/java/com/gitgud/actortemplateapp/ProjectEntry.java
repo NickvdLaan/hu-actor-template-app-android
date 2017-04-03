@@ -7,16 +7,16 @@ package com.gitgud.actortemplateapp;
 public class ProjectEntry {
 
     private String name;
-    private String content;
-    private long date;
+    private String description;
+    private String createdAt;
     String key;
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
@@ -27,12 +27,12 @@ public class ProjectEntry {
         this.name = title;
     }
 
-    public long getDate() {
-        return date;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

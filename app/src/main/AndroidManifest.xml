@@ -18,11 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gitgud.actortemplateapp.GoogleSignInActivity" />
+        <activity android:name=".GoogleSignInActivity" />
         <activity
-            android:name="com.gitgud.actortemplateapp.ContentPager"
-            android:label="@string/title_activity_content_pager"
-            android:parentActivityName="com.gitgud.actortemplateapp.MainActivity"
+            android:name=".ShowContent"
+            android:label="Diary detail"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
