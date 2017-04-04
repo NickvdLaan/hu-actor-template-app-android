@@ -1,4 +1,4 @@
-package com.gitgud.actortemplateapp;
+package com.gitgud.actortemplateapp.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

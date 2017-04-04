@@ -26,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.gitgud.actortemplateapp.fragments.AccountFragment;
+import com.gitgud.actortemplateapp.fragments.NewActorTemplateFragment;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

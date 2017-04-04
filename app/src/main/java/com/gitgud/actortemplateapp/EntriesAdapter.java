@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.gitgud.actortemplateapp.fragments.ShowProjectFragment;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,7 +41,7 @@ public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, Entrie
         @Override
         public void onClick(View v) {
             String datedata = entry.getCreatedAt();
-            Intent intent = new Intent(v.getContext(), ShowContent.class);
+            Intent intent = new Intent(v.getContext(), ShowProjectFragment.class);
             intent.putExtra("title", entry.getName());
             intent.putExtra("content", entry.getDescription());
             intent.putExtra("recorddate", datedata);
