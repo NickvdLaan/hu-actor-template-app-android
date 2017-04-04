@@ -17,6 +17,22 @@ public class ProjectEntry {
     public ProjectEntry() {
     }
 
+    public List<String> getACTOR() {
+        return ACTOR;
+    }
+
+    public void setACTOR(List<String> ACTOR) {
+        this.ACTOR = ACTOR;
+    }
+
+    public String getUSER() {
+        return USER;
+    }
+
+    public void setUSER(String USER) {
+        this.USER = USER;
+    }
+
     public String getName() {
         return name;
     }

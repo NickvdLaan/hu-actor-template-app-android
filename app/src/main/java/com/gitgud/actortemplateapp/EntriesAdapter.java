@@ -6,18 +6,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.gitgud.actortemplateapp.model.FirebaseProjectEntry;
+import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class EntriesAdapter extends FirebaseRecyclerAdapter<FirebaseProjectEntry, EntriesAdapter.MyViewHolder> {
+public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, EntriesAdapter.MyViewHolder> {
     public EntriesAdapter() {
-        super(FirebaseProjectEntry.class, R.layout.project_row, EntriesAdapter.MyViewHolder.class,
+        super(ProjectEntry.class, R.layout.project_row, EntriesAdapter.MyViewHolder.class,
                 FirebaseDatabase.getInstance().getReference().child("projects"));
     }
 
 
     @Override
-    protected void populateViewHolder(MyViewHolder viewHolder, FirebaseProjectEntry model, int position) {
+    protected void populateViewHolder(MyViewHolder viewHolder, ProjectEntry model, int position) {
         viewHolder.title.setText(model.getName());
         String createdAt = model.getCreatedAt();
         viewHolder.dateText.setText(createdAt);
@@ -27,7 +27,7 @@ public class EntriesAdapter extends FirebaseRecyclerAdapter<FirebaseProjectEntry
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title, dateText;
-        public FirebaseProjectEntry entry;
+        public ProjectEntry entry;
         public String key;
 
         public MyViewHolder(View view) {

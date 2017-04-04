@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.gitgud.actortemplateapp.model.FirebaseProjectEntry;
+import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -50,7 +50,7 @@ public class NewActorTemplateFragment extends AppCompatActivity {
                 TextView omschrijving = (TextView) findViewById(R.id.omschrijving);
 
                 if (naam.getText().length() > 0 && omschrijving.getText().length() > 0) {
-                    FirebaseProjectEntry pj = new FirebaseProjectEntry();
+                    ProjectEntry pj = new ProjectEntry();
                     pj.setName(naam.getText().toString());
                     pj.setDescription(omschrijving.getText().toString());
                     pj.setCreatedAt(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
