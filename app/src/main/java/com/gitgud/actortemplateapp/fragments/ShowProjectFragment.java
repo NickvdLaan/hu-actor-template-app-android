@@ -66,29 +66,34 @@ public class ShowProjectFragment extends AppCompatActivity {
                         tv2.setText(entry.getDescription());
                         tv3.setText(entry.getCreatedAt());
 
-                        mDatabase.child("users").child(entry.getUSER()).addListenerForSingleValueEvent(
-                                new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        TextView tv4 = (TextView) findViewById(R.id.user_show_content);
-                                        User user = dataSnapshot.getValue(User.class);
-                                        if (!user.getName().equals("")) {
-                                            tv4.setText(String.format("User: %s", user.getName()));
-                                        } else {
-                                            Snackbar.make(findViewById(android.R.id.content), "Geen gebruiker aan project toegevoegd",
-                                                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        if (entry.getUSER() != null) {
+                            mDatabase.child("users").child(entry.getUSER()).addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            TextView tv4 = (TextView) findViewById(R.id.user_show_content);
+                                            User user = dataSnapshot.getValue(User.class);
+                                            if (!user.getName().equals("")) {
+                                                tv4.setText(String.format("User: %s", user.getName()));
+                                            } else {
+                                                Snackbar.make(findViewById(android.R.id.content), "Geen gebruikersnaam aan project toegevoegd",
+                                                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
                                         }
                                     }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                }
-                        );
-
+                            );
+                        } else {
+                            Snackbar.make(findViewById(android.R.id.content), "Geen gebruiker aan project toegevoegd",
+                                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        }
                         actorListView.clear();
 
+                        // TODO: Dit werkend maken
                         for (String actor : entry.getACTOR()) {
                             mDatabase.child("actors").child(actor).addListenerForSingleValueEvent(
                                     new ValueEventListener() {
