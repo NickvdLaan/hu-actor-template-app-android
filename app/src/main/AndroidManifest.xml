@@ -21,7 +21,16 @@
         <activity android:name=".GoogleSignInActivity" />
         <activity
             android:name=".ShowContent"
-            android:label="Diary detail"
+            android:label="Actor template details"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gitgud.actortemplateapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NewActorTemplateFragment"
+            android:label="New actor template"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
