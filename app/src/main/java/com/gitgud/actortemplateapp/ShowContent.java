@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.gitgud.actortemplateapp.model.ProjectEntry;
+import com.gitgud.actortemplateapp.model.FirebaseProjectEntry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,7 +47,7 @@ public class ShowContent extends AppCompatActivity {
                         TextView tv1 = (TextView)findViewById(R.id.titleView);
                         TextView tv2 = (TextView) findViewById(R.id.contentView);
                         TextView tv3 = (TextView) findViewById(R.id.dateView);
-                        ProjectEntry entry = dataSnapshot.getValue(ProjectEntry.class);
+                        FirebaseProjectEntry entry = dataSnapshot.getValue(FirebaseProjectEntry.class);
                         tv1.setText(entry.getName());
                         tv2.setText(entry.getDescription());
                         tv3.setText(entry.getCreatedAt());

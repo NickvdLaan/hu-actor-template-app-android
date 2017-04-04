@@ -1,20 +1,19 @@
 package com.gitgud.actortemplateapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by martijn on 04/04/17.
  */
 
-public class ProjectEntry {
+public class Actor {
     private String name;
     private String description;
-    private String createdAt;
-    private List<String> ACTOR = new ArrayList<>();
-    private String USER;
 
-    public ProjectEntry() {
+    public Actor(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Actor() {
     }
 
     public String getName() {
@@ -31,13 +30,5 @@ public class ProjectEntry {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
     }
 }

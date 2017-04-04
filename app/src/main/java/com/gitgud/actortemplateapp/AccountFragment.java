@@ -1,16 +1,13 @@
 package com.gitgud.actortemplateapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.gitgud.actortemplateapp.model.FirebaseUser;
-import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,6 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AccountFragment extends AppCompatActivity {
     private DatabaseReference mDatabase;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
+    public AccountFragment(){
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,7 @@ public class AccountFragment extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         TextView username = (TextView) findViewById(R.id.gebruiker);
-        FirebaseUser user = getIntent().getExtras().getParcelable("account");
-        username.setText(user.getUsername());
+        username.setText(mFirebaseUser.getDisplayName());
     }
 
     @Override

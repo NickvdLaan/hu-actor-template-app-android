@@ -9,7 +9,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.account) {
-            Intent i = new Intent(MainActivity.this, AccountFragment.class).putExtra("account", new com.gitgud.actortemplateapp.model.FirebaseUser(mUsername));
+            Intent i = new Intent(MainActivity.this, AccountFragment.class);
             startActivity(i);
             return true;
         } else if (id == R.id.logout) {
@@ -181,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
         canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
                 bitmap.getWidth() / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
