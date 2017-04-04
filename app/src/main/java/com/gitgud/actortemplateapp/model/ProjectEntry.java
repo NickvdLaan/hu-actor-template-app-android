@@ -1,4 +1,4 @@
-package com.gitgud.actortemplateapp;
+package com.gitgud.actortemplateapp.model;
 
 /**
  * Created by JZuurbier on 23-11-2016.
