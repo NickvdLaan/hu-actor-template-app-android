@@ -19,10 +19,10 @@ public class NewActorTemplateFragment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_new_actor_template);
+        setContentView(R.layout.activity_new_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -35,7 +35,13 @@ public class NewActorTemplateFragment extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return true;
+        int id = item.getItemId();
+
+        if (id == R.id.save_actor) {
+            // doe iets
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
