@@ -28,6 +28,10 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         project = getIntent().getExtras().getParcelable("project");
+        if (project == null) {
+            Snackbar.make(this.findViewById(android.R.id.content), String.format("Project is niet meegeven aan %s", this.getClass().getSimpleName()), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
 
         Snackbar.make(this.findViewById(android.R.id.content), String.format("Nieuw project: %s aangemaakt", project.getName()), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
