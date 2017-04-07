@@ -29,24 +29,30 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.gitgud.actortemplateapp.fragments.AccountFragment;
 import com.gitgud.actortemplateapp.fragments.NewActorTemplateFragment;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
 
     // EntriesAdapter for viewing projects
@@ -61,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public static final String ANONYMOUS = "anonymous";
     private GoogleApiClient mGoogleApiClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +108,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         }
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
+
+        // Listen to authentication
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // Authentication just completed successfully :)
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("provider", user.getProviderId());
+                    map.put("name", user.getDisplayName());
+                    map.put("avatar", user.getPhotoUrl().toString());
+                    map.put("email", user.getEmail());
+                    mDatabase.child("users").child(user.getUid()).setValue(map);
+                }
+            }
+        };
 
         // Authorized with Google. Now we need to load the projects for this user
         //add a OnItemClickListener
@@ -166,6 +188,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
@@ -194,21 +230,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             finish();
             return;
         }
-
-//        // Sign in cancelled
-//        if (resultCode == RESULT_CANCELED) {
-//            Snackbar.make(R.string.sign_in_cancelled);
-//            return;
-//        }
-//
-//        // No network
-//        if (resultCode == ResultCodes.RESULT_NO_NETWORK) {
-//            showSnackbar(R.string.no_internet_connection);
-//            return;
-//        }
-//
-//        // User is not signed in. Maybe just wait for the user to press
-//        // "sign in" again, or show a message.
     }
 
     public Bitmap getCroppedBitmap(Bitmap bitmap) {
