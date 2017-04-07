@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/account"
-        android:icon="@drawable/common_plus_signin_btn_icon_dark_normal"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
         android:title="@string/account"
         app:showAsAction="ifRoom" />
     <item
