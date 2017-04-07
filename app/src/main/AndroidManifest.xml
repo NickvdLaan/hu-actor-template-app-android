@@ -49,11 +49,11 @@
         <activity
             android:name=".fragments.AddActorsToProjectFragment"
             android:label="Voeg actors toe"
-            android:parentActivityName=".fragments.ShowProjectFragment"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gitgud.actortemplateapp.fragments.ShowProjectFragment" />
+                android:value="com.gitgud.actortemplateapp.MainActivity" />
         </activity>
     </application>
 

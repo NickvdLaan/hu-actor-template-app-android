@@ -47,7 +47,7 @@ public class NewActorTemplateFragment extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.save_actor) {
+        if (id == R.id.save_template) {
             try {
                 TextView naam = (TextView) findViewById(R.id.naam);
                 TextView omschrijving = (TextView) findViewById(R.id.omschrijving);
@@ -62,7 +62,6 @@ public class NewActorTemplateFragment extends AppCompatActivity {
 
                     Intent i = new Intent(NewActorTemplateFragment.this, AddActorsToProjectFragment.class).putExtra("project", pj);
                     startActivity(i);
-                    finish();
                     return true;
                 } else {
                     Snackbar.make(this.findViewById(android.R.id.content), "Niet alle velden zijn ingevuld", Snackbar.LENGTH_LONG)

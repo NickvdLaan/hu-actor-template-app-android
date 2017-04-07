@@ -19,35 +19,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentStart="true">
 
         <TextView
-            android:text="Naam van project"
+            android:text="Actor "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" />
+            android:id="@+id/textView5" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Naam"
+            android:text="Naam actor"
             android:ems="10"
-            android:id="@+id/naam" />
+            android:id="@+id/editText" />
 
         <TextView
-            android:text="Omschrijving van project"
+            android:text="Omschrijving"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
+            android:id="@+id/textView2" />
 
-        <EditText
+        <AutoCompleteTextView
+            android:text="Omschrijving van actor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/omschrijving"
-            android:text="Omschrijving" />
-
+            android:id="@+id/autoCompleteTextView" />
     </LinearLayout>
 </RelativeLayout>
