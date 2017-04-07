@@ -15,7 +15,16 @@
         android:layout_width="wrap_content"
         android:id="@+id/datetext"
         android:layout_height="wrap_content"
-        android:textSize="14dip"
         android:layout_alignLeft="@id/name"
         android:layout_below="@id/name"></TextView>
+
+    <TextView android:text="Is analist"
+        android:layout_width="wrap_content"
+        android:id="@+id/isAnalist"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_below="@+id/datetext"
+        android:layout_alignParentStart="true"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal|bold"></TextView>
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.gitgud.actortemplateapp.fragments.ShowProjectFragment;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, EntriesAdapter.MyViewHolder> {
@@ -23,11 +24,16 @@ public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, Entrie
         String createdAt = model.getCreatedAt();
         viewHolder.dateText.setText(createdAt);
         viewHolder.entry = model;
+        if (model.getUSER() != null && model.getUSER().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            viewHolder.isAnalist.setText("Jij bent analist over dit project");
+        } else {
+            viewHolder.isAnalist.setText("");
+        }
         viewHolder.key = getRef(position).getKey();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView title, dateText;
+        public TextView title, dateText, isAnalist;
         public ProjectEntry entry;
         public String key;
 
@@ -35,6 +41,7 @@ public class EntriesAdapter extends FirebaseRecyclerAdapter<ProjectEntry, Entrie
             super(view);
             title = (TextView) view.findViewById(R.id.name);
             dateText = (TextView) view.findViewById(R.id.datetext);
+            isAnalist = (TextView) view.findViewById(R.id.isAnalist);
             view.setOnClickListener(this);
         }
 
