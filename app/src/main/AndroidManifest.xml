@@ -46,6 +46,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gitgud.actortemplateapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".fragments.AddActorsToProjectFragment"
+            android:label="Voeg actors toe"
+            android:parentActivityName=".fragments.ShowProjectFragment"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gitgud.actortemplateapp.fragments.ShowProjectFragment" />
+        </activity>
     </application>
 
 </manifest>
