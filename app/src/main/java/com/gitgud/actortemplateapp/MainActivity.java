@@ -114,15 +114,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // Authentication just completed successfully :)
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("provider", user.getProviderId());
-                    map.put("name", user.getDisplayName());
-                    map.put("avatar", user.getPhotoUrl().toString());
-                    map.put("email", user.getEmail());
-                    mDatabase.child("users").child(user.getUid()).setValue(map);
+                try {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user != null) {
+                        // Authentication just completed successfully :)
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("provider", user.getProviderId());
+                        map.put("name", user.getDisplayName());
+                        map.put("avatar", user.getPhotoUrl().toString());
+                        map.put("email", user.getEmail());
+                        mDatabase.child("users").child(user.getUid()).setValue(map);
+                    }
+                } catch (Exception e) {
+                    Snackbar.make(findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", e.getMessage()), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
             }
         };
