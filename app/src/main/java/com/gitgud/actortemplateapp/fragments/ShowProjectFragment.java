@@ -52,6 +52,21 @@ public class ShowProjectFragment extends AppCompatActivity {
         ListView lv = (ListView) findViewById(R.id.actors_show_content);
         final ArrayList<Actor> actorListView = new ArrayList<>();
 
+        final ArrayAdapter<Actor> itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, actorListView);
+        lv.setAdapter(itemsAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Actor actor = actorListView.get(position);
+                Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
+                intent.putExtra("name", actor.getName());
+                intent.putExtra("description", actor.getDescription());
+                view.getContext().startActivity(intent);
+            }
+        });
+
+
+
         Intent intent = getIntent();
         key = intent.getStringExtra("key");
         mDatabase.child("projects").child(key).addListenerForSingleValueEvent(
@@ -100,7 +115,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                                     new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            actorListView.add(dataSnapshot.getValue(Actor.class));
+                                            itemsAdapter.add(dataSnapshot.getValue(Actor.class));
                                         }
 
                                         @Override
@@ -121,18 +136,7 @@ public class ShowProjectFragment extends AppCompatActivity {
         );
 
 
-        ArrayAdapter<Actor> itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, actorListView);
-        lv.setAdapter(itemsAdapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Actor actor = actorListView.get(position);
-                Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
-                intent.putExtra("name", actor.getName());
-                intent.putExtra("description", actor.getDescription());
-                view.getContext().startActivity(intent);
-            }
-        });
+
 //        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
