@@ -26,23 +26,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.gitgud.actortemplateapp.fragments.AccountFragment;
 import com.gitgud.actortemplateapp.fragments.NewActorTemplateFragment;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
 
     // EntriesAdapter for viewing projects
@@ -52,8 +62,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private RecyclerView recyclerView;
     private EntriesAdapter mAdapter;
 
+    // Choose an arbitrary request code value
+    private static final int RC_SIGN_IN = 123;
+
     public static final String ANONYMOUS = "anonymous";
     private GoogleApiClient mGoogleApiClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +92,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
-            // Not signed in, launch the Sign In activity
-            startActivity(new Intent(this, GoogleSignInActivity.class));
-            finish();
-            return;
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setIsSmartLockEnabled(false)
+                            .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                    new AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build()))
+                            .build(),
+                    RC_SIGN_IN);
         } else {
             mUsername = mFirebaseUser.getDisplayName();
             if (mFirebaseUser.getPhotoUrl() != null) {
@@ -88,10 +108,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         }
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
+
+        // Listen to authentication
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // Authentication just completed successfully :)
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("provider", user.getProviderId());
+                    map.put("name", user.getDisplayName());
+                    map.put("avatar", user.getPhotoUrl().toString());
+                    map.put("email", user.getEmail());
+                    mDatabase.child("users").child(user.getUid()).setValue(map);
+                }
+            }
+        };
 
         // Authorized with Google. Now we need to load the projects for this user
         //add a OnItemClickListener
@@ -116,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         inflater.inflate(R.menu.menu_main, menu);
         MenuItem account = menu.findItem(R.id.account);
         try {
-            if (!mPhotoUrl.equals("")) {
+            if (mPhotoUrl != null && !mPhotoUrl.equals("")) {
                 account.setIcon(getPicture(mPhotoUrl));
             }
         } catch (IOException e) {
@@ -139,14 +173,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             startActivity(i);
             return true;
         } else if (id == R.id.logout) {
-            mFirebaseAuth.signOut();
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-            mUsername = ANONYMOUS;
-            startActivity(new Intent(this, GoogleSignInActivity.class));
-            return true;
+            AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // user is now signed out
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        finish();
+                    }
+                });
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     @Override
@@ -167,6 +219,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             return new BitmapDrawable(getResources(), getCroppedBitmap(BitmapFactory.decodeStream(input)));
         } catch (IOException e) {
             return null;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            // user is signed in!
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
         }
     }
 

@@ -5,4 +5,6 @@
     <string name="sign_out">Uitloggen</string>
     <string name="title_activity_content_pager">ContentPager</string>
     <string name="account">Account</string>
+    <string name="twitter_consumer_key" translatable="false">hQoZAoVZhUSMWAZaY0RtfNGgb</string>
+    <string name="twitter_consumer_secret" translatable="false">jq26GdpHIRUgwesOMIUexXe9ysqp8LwrGkFv6crB1S1bH5RpOE</string>
 </resources>

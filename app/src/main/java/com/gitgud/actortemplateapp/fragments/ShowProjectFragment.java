@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,7 +51,7 @@ public class ShowProjectFragment extends AppCompatActivity {
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         ListView lv = (ListView) findViewById(R.id.actors_show_content);
-        final ArrayList<String> actorListView = new ArrayList<>();
+        final ArrayList<Actor> actorListView = new ArrayList<>();
 
         Intent intent = getIntent();
         key = intent.getStringExtra("key");
@@ -94,13 +96,12 @@ public class ShowProjectFragment extends AppCompatActivity {
                         }
                         actorListView.clear();
 
-                        // TODO: Dit werkend maken
                         for (String actor : entry.getACTOR()) {
                             mDatabase.child("actors").child(actor).addListenerForSingleValueEvent(
                                     new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            actorListView.add(dataSnapshot.getValue(Actor.class).getName());
+                                            actorListView.add(dataSnapshot.getValue(Actor.class));
                                         }
 
                                         @Override
@@ -111,6 +112,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                             );
                         }
 
+
                     }
 
                     @Override
@@ -119,9 +121,29 @@ public class ShowProjectFragment extends AppCompatActivity {
                 }
         );
 
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, actorListView);
+
+        ArrayAdapter<Actor> itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, actorListView);
         lv.setAdapter(itemsAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Actor actor = actorListView.get(position);
+                Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
+                intent.putExtra("name", actor.getName());
+                intent.putExtra("description", actor.getDescription());
+                view.getContext().startActivity(intent);
+            }
+        });
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Actor actor = actorListView.get(position);
+//                Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
+//                intent.putExtra("name", actor.getName());
+//                intent.putExtra("description", actor.getDescription());
+//                view.getContext().startActivity(intent);
+//            }
+//        });
     }
 
     @Override
