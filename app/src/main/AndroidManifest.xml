@@ -29,6 +29,15 @@
                 android:value="com.gitgud.actortemplateapp.MainActivity" />
         </activity>
         <activity
+            android:name=".fragments.ShowActorFragment"
+            android:label="Actor overzicht"
+            android:parentActivityName=".fragments.ShowProjectFragment"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gitgud.actortemplateapp.fragments.ShowProjectFragment" />
+        </activity>
+        <activity
             android:name=".fragments.NewActorTemplateFragment"
             android:label="Nieuw project"
             android:parentActivityName=".MainActivity"

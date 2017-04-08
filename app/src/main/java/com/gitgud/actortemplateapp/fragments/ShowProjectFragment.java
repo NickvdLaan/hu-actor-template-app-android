@@ -135,19 +135,6 @@ public class ShowProjectFragment extends AppCompatActivity {
                     }
                 }
         );
-
-
-
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Actor actor = actorListView.get(position);
-//                Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
-//                intent.putExtra("name", actor.getName());
-//                intent.putExtra("description", actor.getDescription());
-//                view.getContext().startActivity(intent);
-//            }
-//        });
     }
 
     @Override
