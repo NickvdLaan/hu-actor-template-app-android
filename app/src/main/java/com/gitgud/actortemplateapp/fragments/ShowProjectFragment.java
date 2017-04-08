@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
@@ -138,10 +139,12 @@ public class ShowProjectFragment extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.deleteitem) {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             mDatabase.child("projects").child(key).removeValue();
             finish();
             return true;
+        } else if (id == R.id.edititem) {
+            Intent i = new Intent(ShowProjectFragment.this, EditProjectFragment.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
