@@ -60,9 +60,11 @@ public class NewActorTemplateFragment extends AppCompatActivity {
                     pj.setDescription(omschrijving.getText().toString());
                     pj.setCreatedAt(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
 
-                    mDatabase.child("projects").push().setValue(pj);
+                    DatabaseReference projects = mDatabase.child("projects").push();
+                    String newProjectKey = projects.getKey();
+                    projects.setValue(pj);
 
-                    Intent i = new Intent(NewActorTemplateFragment.this, AddActorsToProjectFragment.class).putExtra("project", pj);
+                    Intent i = new Intent(NewActorTemplateFragment.this, AddActorsToProjectFragment.class).putExtra("project", pj).putExtra("projectKey", newProjectKey);
                     startActivity(i);
                     return true;
                 } else {

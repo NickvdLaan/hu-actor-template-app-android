@@ -7,28 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
-import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
-import com.gitgud.actortemplateapp.model.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class EditProjectFragment extends AppCompatActivity {
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
+    String key;
+    EditText tv1, tv2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +31,10 @@ public class EditProjectFragment extends AppCompatActivity {
 
         Intent intent = getIntent();
         ProjectEntry projectEntry = intent.getParcelableExtra("project");
+        key = intent.getStringExtra("key");
 
-        EditText tv1 = (EditText) findViewById(R.id.titleView);
-        EditText tv2 = (EditText) findViewById(R.id.contentView);
+        tv1 = (EditText) findViewById(R.id.titleView);
+        tv2 = (EditText) findViewById(R.id.contentView);
 
         tv1.setText(projectEntry.getName());
         tv2.setText(projectEntry.getDescription());
@@ -64,6 +55,13 @@ public class EditProjectFragment extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.save_template) {
+            DatabaseReference project = mDatabase.child("projects").child(key);
+
+            project.child("name").setValue(tv1.getText().toString());
+            project.child("description").setValue(tv2.getText().toString());
+
+            Intent i = new Intent(EditProjectFragment.this, MainActivity.class);
+            startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

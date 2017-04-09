@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:text="Actor "
+            android:text="Actor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView5" />
@@ -33,7 +33,7 @@
             android:inputType="textPersonName"
             android:text="Naam actor"
             android:ems="10"
-            android:id="@+id/editText" />
+            android:id="@+id/actorName" />
 
         <TextView
             android:text="Omschrijving"
@@ -41,11 +41,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView2" />
 
-        <AutoCompleteTextView
-            android:text="Omschrijving van actor"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/autoCompleteTextView" />
+            android:inputType="textMultiLine"
+            android:text="Beschrijving actor"
+            android:ems="10"
+            android:id="@+id/actorDescription" />
 
         <TextView
             android:text="Telefoonnummer"
@@ -59,7 +61,7 @@
             android:inputType="phone"
             android:text="Telefoon actor"
             android:ems="10"
-            android:id="@+id/phoneNumber" />
+            android:id="@+id/actorPhoneNumber" />
 
     </LinearLayout>
 </RelativeLayout>
