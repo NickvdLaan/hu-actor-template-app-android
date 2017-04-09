@@ -7,6 +7,7 @@ package com.gitgud.actortemplateapp.model;
 public class Actor {
     private String name;
     private String description;
+    private String phoneNumber;
 
     public Actor(String name, String description) {
         this.name = name;
@@ -35,5 +36,13 @@ public class Actor {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

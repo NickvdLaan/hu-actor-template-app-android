@@ -62,6 +62,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
                 intent.putExtra("name", actor.getName());
                 intent.putExtra("description", actor.getDescription());
+                intent.putExtra("phoneNumber", actor.getPhoneNumber());
                 view.getContext().startActivity(intent);
             }
         });
