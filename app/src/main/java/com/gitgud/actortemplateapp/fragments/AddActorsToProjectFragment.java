@@ -62,7 +62,8 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
             String actorsKey = actors.getKey(); // newly generated key
             actors.setValue(actor);
 
-            mDatabase.child("projects").child(projectKey).child("ACTOR").setValue(actorsKey);
+            // TODO: Hier moet met de projectKey en actorsKey actoren worden toegevoegd aan het project
+            //mDatabase.child("projects").child(projectKey).child("ACTOR").setValue().setValue(true);
 
             Snackbar.make(this.findViewById(android.R.id.content), String.format("Actor: %s aangemaakt", actor.getName()), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();

@@ -49,5 +49,17 @@
             android:id="@+id/omschrijving"
             android:text="Omschrijving" />
 
+        <TextView
+            android:text="Selecteer actoren"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
     </LinearLayout>
 </RelativeLayout>
