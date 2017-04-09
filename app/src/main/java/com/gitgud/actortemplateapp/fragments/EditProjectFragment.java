@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,12 +38,21 @@ public class EditProjectFragment extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        Intent intent = getIntent();
+        ProjectEntry projectEntry = intent.getParcelableExtra("project");
+
+        EditText tv1 = (EditText) findViewById(R.id.titleView);
+        EditText tv2 = (EditText) findViewById(R.id.contentView);
+
+        tv1.setText(projectEntry.getName());
+        tv2.setText(projectEntry.getDescription());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_content, menu);
+        getMenuInflater().inflate(R.menu.menu_new_actor_template, menu);
         return true;
     }
 
@@ -53,8 +63,7 @@ public class EditProjectFragment extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.deleteitem) {
-
+        if (id == R.id.save_template) {
             return true;
         }
         return super.onOptionsItemSelected(item);
