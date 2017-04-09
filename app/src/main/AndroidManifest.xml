@@ -47,6 +47,15 @@
                 android:value="com.gitgud.actortemplateapp.MainActivity" />
         </activity>
         <activity
+            android:name=".fragments.EditProjectFragment"
+            android:label="Wijzig project"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gitgud.actortemplateapp.MainActivity" />
+        </activity>
+        <activity
             android:name=".fragments.AccountFragment"
             android:label="Account gegevens"
             android:parentActivityName=".MainActivity"
