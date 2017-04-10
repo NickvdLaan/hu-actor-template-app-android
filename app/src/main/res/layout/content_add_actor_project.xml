@@ -22,6 +22,25 @@
         android:layout_alignParentStart="true">
 
         <TextView
+            android:text="Selecteer actoren"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:text="Of voeg een nieuwe actor toe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:textStyle="normal|bold" />
+
+        <TextView
             android:text="Actor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,6 +81,12 @@
             android:text="Telefoon actor"
             android:ems="10"
             android:id="@+id/actorPhoneNumber" />
+
+        <Button
+            android:text="Actor toevoegen aan lijst"
+            android:layout_width="wrap_content"
+            android:id="@+id/saveNewActor"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </RelativeLayout>

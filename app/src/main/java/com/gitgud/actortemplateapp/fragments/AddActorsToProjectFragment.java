@@ -3,12 +3,16 @@ package com.gitgud.actortemplateapp.fragments;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gitgud.actortemplateapp.ActorAdapter;
 import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
@@ -23,6 +27,8 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ProjectEntry project;
     private String projectKey;
+    private ActorAdapter mAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,17 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
             Snackbar.make(this.findViewById(android.R.id.content), String.format("Project is niet meegeven aan %s", this.getClass().getSimpleName()), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
+
+
+        mAdapter = new ActorAdapter();
+
+
+        // TODO: http://stackoverflow.com/questions/36369913/how-to-implement-multi-select-in-recyclerview
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
 
         Snackbar.make(this.findViewById(android.R.id.content), String.format("Nieuw project: %s aangemaakt", project.getName()), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();

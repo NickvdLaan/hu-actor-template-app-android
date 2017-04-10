@@ -39,8 +39,6 @@ import java.util.Calendar;
 
 public class NewActorTemplateFragment extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    private ActorAdapter mAdapter;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +48,6 @@ public class NewActorTemplateFragment extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAdapter = new ActorAdapter();
-
-
-        // TODO: http://stackoverflow.com/questions/36369913/how-to-implement-multi-select-in-recyclerview
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
