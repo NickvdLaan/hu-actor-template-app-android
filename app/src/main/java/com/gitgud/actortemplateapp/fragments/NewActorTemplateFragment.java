@@ -2,7 +2,6 @@ package com.gitgud.actortemplateapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -10,9 +9,9 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -54,13 +53,16 @@ public class NewActorTemplateFragment extends AppCompatActivity {
 
                 if (naam.getText().length() > 0 && omschrijving.getText().length() > 0) {
                     ProjectEntry pj = new ProjectEntry();
+                    pj.setUSER(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     pj.setName(naam.getText().toString());
                     pj.setDescription(omschrijving.getText().toString());
                     pj.setCreatedAt(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
 
-                    mDatabase.child("projects").push().setValue(pj);
+                    DatabaseReference projects = mDatabase.child("projects").push();
+                    String newProjectKey = projects.getKey();
+                    projects.setValue(pj);
 
-                    Intent i = new Intent(NewActorTemplateFragment.this, AddActorsToProjectFragment.class).putExtra("project", pj);
+                    Intent i = new Intent(NewActorTemplateFragment.this, AddActorsToProjectFragment.class).putExtra("project", pj).putExtra("projectKey", newProjectKey);
                     startActivity(i);
                     return true;
                 } else {

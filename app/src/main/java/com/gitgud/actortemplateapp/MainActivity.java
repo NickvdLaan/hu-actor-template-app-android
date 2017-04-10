@@ -121,11 +121,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("provider", user.getProviderId());
                         map.put("name", user.getDisplayName());
-                        map.put("avatar", user.getPhotoUrl().toString());
+                        if (user.getPhotoUrl() != null) {
+                            map.put("avatar", user.getPhotoUrl().toString());
+                        }
                         map.put("email", user.getEmail());
                         mDatabase.child("users").child(user.getUid()).setValue(map);
                     }
                 } catch (Exception e) {
+                    Log.e("error auth", e.getMessage());
                     Snackbar.make(findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", e.getMessage()), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }

@@ -25,10 +25,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ShowActorFragment extends AppCompatActivity {
-    String name, description;
+    String name, description, phoneNumber;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -49,13 +51,16 @@ public class ShowActorFragment extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         description = intent.getStringExtra("description");
+        phoneNumber = intent.getStringExtra("phoneNumber");
 
 
         TextView tv1 = (TextView) findViewById(R.id.nameView);
         TextView tv2 = (TextView) findViewById(R.id.descriptionView);
+        TextView tv3 = (TextView) findViewById(R.id.phoneView);
 
         tv1.setText(name);
         tv2.setText(description);
+        tv3.setText(phoneNumber);
     }
 
     @Override

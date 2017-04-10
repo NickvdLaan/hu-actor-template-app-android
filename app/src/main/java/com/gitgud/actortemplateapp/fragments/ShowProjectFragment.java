@@ -37,6 +37,7 @@ public class ShowProjectFragment extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
+    ProjectEntry entry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class ShowProjectFragment extends AppCompatActivity {
         setContentView(R.layout.activity_show_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Initialize Firebase Auth
@@ -62,6 +64,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
                 intent.putExtra("name", actor.getName());
                 intent.putExtra("description", actor.getDescription());
+                intent.putExtra("phoneNumber", actor.getPhoneNumber());
                 view.getContext().startActivity(intent);
             }
         });
@@ -79,7 +82,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                         TextView tv2 = (TextView) findViewById(R.id.contentView);
                         TextView tv3 = (TextView) findViewById(R.id.dateView);
 
-                        ProjectEntry entry = dataSnapshot.getValue(ProjectEntry.class);
+                        entry = dataSnapshot.getValue(ProjectEntry.class);
                         tv1.setText(entry.getName());
                         tv2.setText(entry.getDescription());
                         tv3.setText(entry.getCreatedAt());
@@ -156,7 +159,7 @@ public class ShowProjectFragment extends AppCompatActivity {
             finish();
             return true;
         } else if (id == R.id.edititem) {
-            Intent i = new Intent(ShowProjectFragment.this, EditProjectFragment.class);
+            Intent i = new Intent(ShowProjectFragment.this, EditProjectFragment.class).putExtra("project", entry).putExtra("key", key);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
