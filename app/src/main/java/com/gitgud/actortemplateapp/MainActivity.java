@@ -21,8 +21,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.gitgud.actortemplateapp.adapters.EntriesAdapter;
 import com.gitgud.actortemplateapp.fragments.AccountFragment;
 import com.gitgud.actortemplateapp.fragments.NewActorTemplateFragment;
+import com.gitgud.actortemplateapp.helper.ErrorHelper;
 import com.gitgud.actortemplateapp.helper.ImageHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private ErrorHelper log;
+
 
     // EntriesAdapter for viewing projects
     private String mUsername;
@@ -60,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static final String ANONYMOUS = "anonymous";
     private GoogleApiClient mGoogleApiClient;
 
-
+    public MainActivity(){
+        log = new ErrorHelper("MainActivity");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,9 +125,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         mDatabase.child("users").child(user.getUid()).setValue(map);
                     }
                 } catch (Exception e) {
-                    Log.e("error auth", e.getMessage());
-                    Snackbar.make(findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", e.getMessage()), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    log.handleException(e);
                 }
             }
         };
@@ -153,8 +157,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 account.setIcon(getPicture(mPhotoUrl));
             }
         } catch (IOException e) {
-            Snackbar.make(this.findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", e.getMessage()), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            log.handleException(e);
         }
         return true;
     }
@@ -192,10 +195,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+        log.handleInfo("Google Play Services error");
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

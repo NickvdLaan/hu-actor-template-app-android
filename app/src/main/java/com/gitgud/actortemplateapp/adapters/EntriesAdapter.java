@@ -1,4 +1,4 @@
-package com.gitgud.actortemplateapp;
+package com.gitgud.actortemplateapp.adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.fragments.ShowProjectFragment;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.auth.FirebaseAuth;

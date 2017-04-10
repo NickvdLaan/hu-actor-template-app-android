@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gitgud.actortemplateapp.R;
+import com.gitgud.actortemplateapp.helper.ErrorHelper;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.gitgud.actortemplateapp.model.User;
@@ -35,8 +36,13 @@ public class ShowProjectFragment extends AppCompatActivity {
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private ErrorHelper log;
 
     ProjectEntry entry;
+
+    public ShowProjectFragment() {
+        log = new ErrorHelper("ShowProjectFragment");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +101,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                                                 tv4.setText(user.getName());
                                                 Picasso.with(getApplicationContext()).load(user.getAvatar()).into((ImageView) findViewById(R.id.photo_analist));
                                             } else {
-                                                Snackbar.make(findViewById(android.R.id.content), "Geen gebruikersnaam aan project toegevoegd",
-                                                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                                log.handleInfo("Geen gebruikersnaam aan project toegevoegd");
                                             }
                                         }
 
@@ -107,8 +112,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                                     }
                             );
                         } else {
-                            Snackbar.make(findViewById(android.R.id.content), "Geen gebruiker aan project toegevoegd",
-                                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            log.handleInfo("Geen gebruikersnaam aan project toegevoegd");
                         }
                         actorListView.clear();
 
@@ -156,8 +160,7 @@ public class ShowProjectFragment extends AppCompatActivity {
                 finish();
                 return true;
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Kan niet verwijderen, geen analist op dit actor template",
-                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                log.handleInfo("Kan niet verwijderen, geen analist op dit actor template");
                 return false;
             }
         } else if (id == R.id.edititem) {

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import com.firebase.ui.auth.AuthUI;
 import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
+import com.gitgud.actortemplateapp.helper.ErrorHelper;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -52,6 +53,7 @@ public class AccountFragment extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private static final int CAMERA_REQUEST = 1888;
+    private ErrorHelper log;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -61,6 +63,7 @@ public class AccountFragment extends AppCompatActivity {
     public AccountFragment() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        log = new ErrorHelper("AccountFragment");
     }
 
 
@@ -78,8 +81,7 @@ public class AccountFragment extends AppCompatActivity {
         try {
             Picasso.with(getApplicationContext()).load(mFirebaseUser.getPhotoUrl().toString()).into((ImageView) findViewById(R.id.foto));
         } catch (Exception e) {
-            Snackbar.make(this.findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", e.getMessage()), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            log.handleException(e);
         }
 
         Button clickButton = (Button) findViewById(R.id.change_photo);
@@ -130,10 +132,7 @@ public class AccountFragment extends AppCompatActivity {
             mFirebaseUser.updateProfile(profileUpdates);
             getWindow().getDecorView().clearFocus();
 
-            Snackbar.make(findViewById(android.R.id.content),
-                    "Het kan tien minuten duren voordat de nieuwe avatar zichtbaar is, log opnieuw in voor directe verandering",
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Action", null).show();
+            log.handleInfo("Het kan tien minuten duren voordat de nieuwe avatar zichtbaar is, log opnieuw in voor directe verandering");
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -167,8 +166,7 @@ public class AccountFragment extends AppCompatActivity {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Snackbar.make(findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", exception.getMessage()), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                log.handleException(exception);
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
