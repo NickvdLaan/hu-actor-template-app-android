@@ -1,5 +1,6 @@
 package com.gitgud.actortemplateapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.gitgud.actortemplateapp.ActorAdapter;
+import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
@@ -46,6 +49,8 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
 
     DatabaseReference actorsRef;
     List<Actor> listOfActors = new ArrayList<Actor>();
+    List<String> allActorKeys = new ArrayList<String>();
+    List<String> selectedKeys = new ArrayList<String>();
     ListView actorListView;
     ListAdapter actorListAdapter;
 
@@ -94,8 +99,13 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
             @Override
             protected void populateView(View v, Actor model, int position) {
                 TextView actorName = (TextView) v.findViewById(android.R.id.text1);
+                // Add actor for list
                 actorName.setText(model.getName());
                 listOfActors.add(position,model);
+
+                // Store all keys for select
+                String key = this.getRef(position).getKey();
+                allActorKeys.add(position, key);
             }
         };
 
@@ -106,11 +116,37 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SparseBooleanArray sp = actorListView.getCheckedItemPositions();
 
+                selectedKeys.clear();
+                for(int j=0;j<sp.size();j++)
+                {
+                    selectedKeys.add(allActorKeys.get(sp.keyAt(i)));
+                }
             }
         });
 
+        Button saveNewActor = (Button) findViewById(R.id.saveNewActor);
+        saveNewActor.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Actor actor = new Actor();
 
+                EditText name = (EditText) findViewById(R.id.actorName);
+                EditText description = (EditText) findViewById(R.id.actorDescription);
+                EditText phoneNumber = (EditText) findViewById(R.id.actorPhoneNumber);
+
+                actor.setName(name.getText().toString());
+                actor.setDescription(description.getText().toString());
+                actor.setPhoneNumber(phoneNumber.getText().toString());
+                DatabaseReference actors = mDatabase.child("actors").push();
+                String actorsKey = actors.getKey(); // newly generated key
+                actors.setValue(actor);
+
+                name.setText("");
+                description.setText("");
+                phoneNumber.setText("");
+            }
+        });
 
 
 
@@ -148,28 +184,10 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.save_actor) {
-            Actor actor = new Actor();
-
-            EditText name = (EditText) findViewById(R.id.actorName);
-            EditText description = (EditText) findViewById(R.id.actorDescription);
-            EditText phoneNumber = (EditText) findViewById(R.id.actorPhoneNumber);
-
-            actor.setName(name.getText().toString());
-            actor.setDescription(description.getText().toString());
-            actor.setPhoneNumber(phoneNumber.getText().toString());
-            DatabaseReference actors = mDatabase.child("actors").push();
-            String actorsKey = actors.getKey(); // newly generated key
-            actors.setValue(actor);
-
-            // TODO: Hier moet met de projectKey en actorsKey actoren worden toegevoegd aan het project
-            //mDatabase.child("projects").child(projectKey).child("ACTOR").setValue().setValue(true);
-
-            Snackbar.make(this.findViewById(android.R.id.content), String.format("Actor: %s aangemaakt", actor.getName()), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            name.setText("");
-            description.setText("");
-            phoneNumber.setText("");
-
+            mDatabase.child("projects").child(projectKey).child("ACTOR").setValue(selectedKeys);
+            Intent i = new Intent(AddActorsToProjectFragment.this, MainActivity.class);
+            startActivity(i);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
