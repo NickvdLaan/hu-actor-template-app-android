@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.gitgud.actortemplateapp.R;
-import com.gitgud.actortemplateapp.helper.ErrorHelper;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -25,11 +24,6 @@ import java.util.Calendar;
 
 public class NewActorTemplateFragment extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    private ErrorHelper log;
-
-    public NewActorTemplateFragment(){
-        log = new ErrorHelper("NewActorTemplateFragment");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +66,13 @@ public class NewActorTemplateFragment extends AppCompatActivity {
                     startActivity(i);
                     return true;
                 } else {
-                    log.handleInfo("Niet alle velden zijn ingevuld");
+                    Snackbar.make(this.findViewById(android.R.id.content), "Niet alle velden zijn ingevuld", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                     return false;
                 }
             } catch (Exception e) {
-                log.handleException(e);
+                Snackbar.make(this.findViewById(android.R.id.content), String.format("Er is iets misgegaan met het aanmaken van het project, %s", e.getMessage()), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         }
         return super.onOptionsItemSelected(item);

@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
-import com.gitgud.actortemplateapp.helper.ErrorHelper;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
 import com.google.firebase.database.DatabaseReference;
@@ -36,16 +35,11 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ProjectEntry project;
     private String projectKey;
-    private ErrorHelper log;
 
     DatabaseReference actorsRef;
     List<String> selectedKeys = new ArrayList();
     ListView actorListView;
     FirebaseListAdapter actorListAdapter;
-
-    public AddActorsToProjectFragment(){
-        log = new ErrorHelper("AddActorsToProjectFragment");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +53,8 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         project = getIntent().getExtras().getParcelable("project");
         projectKey = getIntent().getExtras().getString("projectKey");
         if (project == null) {
-            log.handleInfo(String.format("Project is niet meegeven aan %s", this.getClass().getSimpleName()));
+            Snackbar.make(this.findViewById(android.R.id.content), String.format("Project is niet meegeven aan %s", this.getClass().getSimpleName()), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         }
 
         actorsRef = mDatabase.child("actors");
@@ -119,7 +114,8 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
             }
         });
 
-        log.handleInfo(String.format("Nieuw project: %s aangemaakt", project.getName()));
+        Snackbar.make(this.findViewById(android.R.id.content), String.format("Nieuw project: %s aangemaakt", project.getName()), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
