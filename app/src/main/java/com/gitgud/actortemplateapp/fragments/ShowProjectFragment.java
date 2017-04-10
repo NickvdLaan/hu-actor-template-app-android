@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +95,8 @@ public class ShowProjectFragment extends AppCompatActivity {
                                             TextView tv4 = (TextView) findViewById(R.id.user_show_content);
                                             User user = dataSnapshot.getValue(User.class);
                                             if (!user.getName().equals("")) {
-                                                tv4.setText(String.format("User: %s", user.getName()));
+                                                tv4.setText(user.getName());
+                                                Picasso.with(getApplicationContext()).load(user.getAvatar()).into((ImageView) findViewById(R.id.photo_analist));
                                             } else {
                                                 Snackbar.make(findViewById(android.R.id.content), "Geen gebruikersnaam aan project toegevoegd",
                                                         Snackbar.LENGTH_LONG).setAction("Action", null).show();
