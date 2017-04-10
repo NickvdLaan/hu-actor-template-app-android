@@ -151,9 +151,15 @@ public class ShowProjectFragment extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.deleteitem) {
-            mDatabase.child("projects").child(key).removeValue();
-            finish();
-            return true;
+            if (entry.getUSER() != null && entry.getUSER().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                mDatabase.child("projects").child(key).removeValue();
+                finish();
+                return true;
+            } else {
+                Snackbar.make(findViewById(android.R.id.content), "Kan niet verwijderen, geen analist op dit actor template",
+                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                return false;
+            }
         } else if (id == R.id.edititem) {
             Intent i = new Intent(ShowProjectFragment.this, EditProjectFragment.class).putExtra("project", entry).putExtra("key", key);
             startActivity(i);
