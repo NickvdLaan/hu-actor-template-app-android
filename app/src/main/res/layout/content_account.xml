@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:weightSum="1">
 
         <TextView
             android:text="Gebruiker"
@@ -34,6 +35,25 @@
             android:id="@+id/gebruiker"
             android:textSize="18sp"
             android:textStyle="normal|bold" />
+
+        <TextView
+            android:text="Foto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_help"
+            android:id="@+id/foto"
+            android:layout_weight="0.40" />
+
+        <Button
+            android:text="Verander foto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_photo" />
 
     </LinearLayout>
 </RelativeLayout>

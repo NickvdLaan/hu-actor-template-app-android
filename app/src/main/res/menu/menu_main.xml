@@ -8,9 +8,4 @@
         android:icon="@drawable/common_google_signin_btn_icon_dark"
         android:title="@string/account"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/logout"
-        android:icon="@drawable/logout"
-        android:title="logout"
-        app:showAsAction="always" />
 </menu>

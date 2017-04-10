@@ -180,16 +180,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             Intent i = new Intent(MainActivity.this, AccountFragment.class);
             startActivity(i);
             return true;
-        } else if (id == R.id.logout) {
-            AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // user is now signed out
-                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-                        finish();
-                    }
-                });
         }
 
         return super.onOptionsItemSelected(item);

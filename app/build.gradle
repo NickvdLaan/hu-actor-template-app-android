@@ -43,6 +43,9 @@ dependencies {
     // Firebase UI
     compile 'com.firebaseui:firebase-ui:1.0.0'
 
+    // Plaatjes
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
 }
 
 // Add to the bottom of the file
