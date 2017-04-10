@@ -1,6 +1,7 @@
 package com.gitgud.actortemplateapp;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         }
 
-
         // Listen to authentication
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         MenuItem account = menu.findItem(R.id.account);
         try {
             if (mPhotoUrl != null && !mPhotoUrl.equals("")) {
-                account.setIcon(getPicture(mPhotoUrl));
+                account.setIcon(ImageHelper.getPicture(mPhotoUrl, getResources()));
             }
         } catch (IOException e) {
             Snackbar.make(this.findViewById(android.R.id.content), String.format("Er is iets misgegaan, %s", e.getMessage()), Snackbar.LENGTH_LONG)
@@ -207,18 +207,4 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             return;
         }
     }
-
-    public BitmapDrawable getPicture(String src) throws IOException {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            return new BitmapDrawable(getResources(), ImageHelper.getCroppedBitmap(BitmapFactory.decodeStream(input)));
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
 }
