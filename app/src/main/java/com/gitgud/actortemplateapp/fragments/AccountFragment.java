@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +18,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +58,11 @@ public class AccountFragment extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private static final int CAMERA_REQUEST = 1888;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     public AccountFragment() {
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -66,7 +78,7 @@ public class AccountFragment extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        TextView username = (TextView) findViewById(R.id.gebruiker);
+        EditText username = (EditText) findViewById(R.id.gebruiker);
         username.setText(mFirebaseUser.getDisplayName());
 
         try {
@@ -81,11 +93,14 @@ public class AccountFragment extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -114,6 +129,25 @@ public class AccountFragment extends AppCompatActivity {
                             finish();
                         }
                     });
+        } else if (id == R.id.save_account) {
+            EditText gebruiker = (EditText) findViewById(R.id.gebruiker);
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().
+                    setDisplayName(gebruiker.getText().toString()).build();
+            mFirebaseUser.updateProfile(profileUpdates);
+            getWindow().getDecorView().clearFocus();
+
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Het kan tien minuten duren voordat de nieuwe avatar zichtbaar is, log opnieuw in voor directe verandering",
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Action", null).show();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    startActivity(new Intent(AccountFragment.this, MainActivity.class));
+                    finish();
+                }
+            }, 3000);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,13 +179,46 @@ public class AccountFragment extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(taskSnapshot.getDownloadUrl()).build();
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().
+                        setPhotoUri(taskSnapshot.getDownloadUrl()).build();
                 mFirebaseUser.updateProfile(profileUpdates);
-                Snackbar.make(findViewById(android.R.id.content),
-                        "Het kan tien minuten duren voordat de nieuwe avatar zichtbaar is, log opnieuw in voor directe verandering",
-                        Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("AccountFragment Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }

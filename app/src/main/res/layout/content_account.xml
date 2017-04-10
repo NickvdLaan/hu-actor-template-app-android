@@ -26,15 +26,17 @@
             android:text="Gebruiker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:id="@+id/textView7" />
 
-        <TextView
-            android:text="account"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/gebruiker"
-            android:textSize="18sp"
-            android:textStyle="normal|bold" />
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:id="@+id/gebruiker" />
 
         <TextView
             android:text="Foto"

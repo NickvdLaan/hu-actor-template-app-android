@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.gitgud.actortemplateapp.fragments.AccountFragment;
 import com.gitgud.actortemplateapp.fragments.NewActorTemplateFragment;
+import com.gitgud.actortemplateapp.helper.ImageHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
-
     // EntriesAdapter for viewing projects
     private String mUsername;
     private String mPhotoUrl;
@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public static final String ANONYMOUS = "anonymous";
     private GoogleApiClient mGoogleApiClient;
-
 
 
     @Override
@@ -207,19 +206,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-    public BitmapDrawable getPicture(String src) throws IOException {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            return new BitmapDrawable(getResources(), getCroppedBitmap(BitmapFactory.decodeStream(input)));
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -230,22 +216,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    public Bitmap getCroppedBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                bitmap.getWidth() / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
+    public BitmapDrawable getPicture(String src) throws IOException {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            return new BitmapDrawable(getResources(), ImageHelper.getCroppedBitmap(BitmapFactory.decodeStream(input)));
+        } catch (IOException e) {
+            return null;
+        }
     }
+
 }

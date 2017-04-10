@@ -8,4 +8,10 @@
         android:title="logout"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/save_account"
+        android:icon="@drawable/save_actor_template"
+        android:title="logout"
+        app:showAsAction="always" />
+
 </menu>

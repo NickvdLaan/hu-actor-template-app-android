@@ -69,8 +69,6 @@ public class ShowProjectFragment extends AppCompatActivity {
             }
         });
 
-
-
         Intent intent = getIntent();
         key = intent.getStringExtra("key");
         mDatabase.child("projects").child(key).addListenerForSingleValueEvent(
@@ -129,8 +127,6 @@ public class ShowProjectFragment extends AppCompatActivity {
                                     }
                             );
                         }
-
-
                     }
 
                     @Override
@@ -164,6 +160,4 @@ public class ShowProjectFragment extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
