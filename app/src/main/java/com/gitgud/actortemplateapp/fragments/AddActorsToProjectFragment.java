@@ -103,7 +103,6 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
 
                 actor.setName(name.getText().toString());
                 actor.setDescription(description.getText().toString());
-                actor.setPhoneNumber(phoneNumber.getText().toString());
                 DatabaseReference actors = mDatabase.child("actors").push();
                 String actorsKey = actors.getKey(); // newly generated key
                 actors.setValue(actor);

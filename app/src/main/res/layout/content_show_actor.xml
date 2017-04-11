@@ -37,24 +37,13 @@
         android:layout_alignLeft="@id/nameView"
         android:layout_marginTop="20dp" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/stat_sys_phone_call_forward"
-        android:id="@+id/phoneIcon"
-        android:layout_alignBottom="@+id/phoneView"
-        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:autoLink="phone"
-        android:linksClickable="true"
-        android:text="TextView"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/phoneView"
-        android:layout_marginTop="18dp"
-        android:layout_below="@+id/descriptionView"
-        android:layout_toEndOf="@+id/phoneIcon" />
+        android:layout_height="match_parent"
+        android:id="@+id/userListView"
+        android:layout_below="@id/descriptionView"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

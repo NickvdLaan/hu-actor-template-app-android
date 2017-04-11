@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
@@ -31,7 +32,9 @@ import java.util.ArrayList;
 
 public class ShowProjectFragment extends AppCompatActivity {
     String key;
+    String actorKey;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -55,17 +58,13 @@ public class ShowProjectFragment extends AppCompatActivity {
 
         ListView lv = (ListView) findViewById(R.id.actors_show_content);
 
-
         itemsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, actorListView);
         lv.setAdapter(itemsAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Actor actor = actorListView.get(position);
                 Intent intent = new Intent(view.getContext(), ShowActorFragment.class);
-                intent.putExtra("name", actor.getName());
-                intent.putExtra("description", actor.getDescription());
-                intent.putExtra("phoneNumber", actor.getPhoneNumber());
+                intent.putExtra("actorKey", actorKey);
                 view.getContext().startActivity(intent);
             }
         });
@@ -128,21 +127,21 @@ public class ShowProjectFragment extends AppCompatActivity {
                 }
                 actorListView.clear();
 
-                for (String actor : entry.getACTOR()) {
-                    mDatabase.child("actors").child(actor).addListenerForSingleValueEvent(
-                            new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    itemsAdapter.add(dataSnapshot.getValue(Actor.class));
-                                }
+                actorKey = entry.getACTOR();
+                mDatabase.child("actors").child(actorKey).addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                itemsAdapter.add(dataSnapshot.getValue(Actor.class));
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
                             }
-                    );
-                }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        }
+                );
             }
 
             @Override
