@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         }
 
-        // Listen to authentication
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -141,6 +139,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 }
             }
         };
+
+        // Listen to authentication
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // Check if user is admin, or else don't display adding project
+        if (mFirebaseUser != null) {
+            mDatabase.child("users").child(mFirebaseUser.getUid()).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (!user.getAdmin()) {
+                            FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
+                            button.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                }
+        );
+        }
+
 
         // Authorized with Google. Now we need to load the projects for this user
         //add a OnItemClickListener
