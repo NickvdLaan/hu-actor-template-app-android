@@ -10,6 +10,7 @@ public class User {
     private String image;
     private String name;
     private String provider;
+    private String phoneNumber;
 
     public User(String avatar, String email, String image, String name, String provider) {
         this.avatar = avatar;
@@ -65,5 +66,13 @@ public class User {
 
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

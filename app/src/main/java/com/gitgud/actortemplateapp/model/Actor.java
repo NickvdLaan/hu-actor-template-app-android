@@ -10,15 +10,13 @@ import java.util.List;
 public class Actor {
     private String name;
     private String description;
-    private String phoneNumber;
     private String image;
     private List<String> USER = new ArrayList<>();
 
-    public Actor(String name, String description, String phoneNumber, String image) {
+    public Actor(String name, String description, String image) {
         this.name = name;
         this.description = description;
         this.image = image;
-        this.phoneNumber = phoneNumber;
     }
 
     public Actor() {
@@ -51,14 +49,6 @@ public class Actor {
     @Override
     public String toString() {
         return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getImage() {
