@@ -11,6 +11,7 @@ public class User {
     private String name;
     private String provider;
     private String phoneNumber;
+    private Boolean admin;
 
     public User(String avatar, String email, String image, String name, String provider) {
         this.avatar = avatar;
@@ -74,5 +75,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

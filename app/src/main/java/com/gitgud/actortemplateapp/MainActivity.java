@@ -25,6 +25,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.gitgud.actortemplateapp.fragments.AccountFragment;
 import com.gitgud.actortemplateapp.fragments.NewActorTemplateFragment;
 import com.gitgud.actortemplateapp.helper.ImageHelper;
+import com.gitgud.actortemplateapp.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -114,16 +115,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot snapshot) {
-                                if (!snapshot.exists()) {
-                                    // Authentication just completed successfully :)
-                                    Map<String, String> map = new HashMap<String, String>();
-                                    map.put("provider", user.getProviderId());
-                                    map.put("name", user.getDisplayName());
+                                if (!snapshot.exists()) { // User did not exist yet
+                                    User newUser = new User();
+                                    newUser.setAdmin(false);
+                                    newUser.setName(user.getDisplayName());
+                                    newUser.setProvider(user.getProviderId());
                                     if (user.getPhotoUrl() != null) {
-                                        map.put("avatar", user.getPhotoUrl().toString());
+                                        newUser.setAvatar(user.getPhotoUrl().toString());
                                     }
-                                    map.put("email", user.getEmail());
-                                    mDatabase.child("users").child(user.getUid()).setValue(map);
+                                    newUser.setEmail(user.getEmail());
+                                    mDatabase.child("users").child(user.getUid()).setValue(newUser);
                                 }
                             }
 
