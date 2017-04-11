@@ -21,6 +21,7 @@ import com.gitgud.actortemplateapp.MainActivity;
 import com.gitgud.actortemplateapp.R;
 import com.gitgud.actortemplateapp.model.Actor;
 import com.gitgud.actortemplateapp.model.ProjectEntry;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -96,11 +97,12 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         saveNewActor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Actor actor = new Actor();
-
+                ArrayList<String> users = new ArrayList<>();
+                users.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 EditText name = (EditText) findViewById(R.id.actorName);
                 EditText description = (EditText) findViewById(R.id.actorDescription);
                 EditText phoneNumber = (EditText) findViewById(R.id.actorPhoneNumber);
-
+                actor.setUSER(users);
                 actor.setName(name.getText().toString());
                 actor.setDescription(description.getText().toString());
                 DatabaseReference actors = mDatabase.child("actors").push();
@@ -122,7 +124,6 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.save_actor) {
-
             mDatabase.child("projects").child(projectKey).child("ACTOR").setValue(selectedKeys);
 
             Log.e("start", "start");

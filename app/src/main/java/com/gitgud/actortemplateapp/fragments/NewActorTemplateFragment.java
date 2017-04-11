@@ -53,7 +53,6 @@ public class NewActorTemplateFragment extends AppCompatActivity {
 
                 if (naam.getText().length() > 0 && omschrijving.getText().length() > 0) {
                     ProjectEntry pj = new ProjectEntry();
-                    pj.setUSER(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     pj.setName(naam.getText().toString());
                     pj.setDescription(omschrijving.getText().toString());
                     pj.setCreatedAt(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
