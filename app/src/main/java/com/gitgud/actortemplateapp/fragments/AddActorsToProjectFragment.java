@@ -57,13 +57,13 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
                     .setAction("Action", null).show();
         }
 
-        actorsRef = mDatabase.child("actors");
+        actorsRef = mDatabase.child("users");
         actorListView = (ListView) this.findViewById(R.id.actorList);
         actorListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         actorListView.setItemsCanFocus(false);
 
 
-        actorListAdapter = new FirebaseListAdapter<Actor>(this,Actor.class,android.R.layout.simple_list_item_multiple_choice, actorsRef) {
+        actorListAdapter = new FirebaseListAdapter<Actor>(this, Actor.class, android.R.layout.simple_list_item_multiple_choice, actorsRef) {
             @Override
             protected void populateView(View v, Actor model, int position) {
                 TextView actorName = (TextView) v.findViewById(android.R.id.text1);
@@ -73,15 +73,13 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         };
         actorListView.setAdapter(actorListAdapter);
 
-
-        actorListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        actorListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 SparseBooleanArray sp = actorListView.getCheckedItemPositions();
                 selectedKeys.clear();
                 if (sp != null) {
-                    for (int j=0; j < sp.size(); j++) {
+                    for (int j = 0; j < sp.size(); j++) {
                         if (sp.valueAt(j)) {
                             int position = sp.keyAt(j);
                             selectedKeys.add(actorListAdapter.getRef(position).getKey());
@@ -89,27 +87,6 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
                     }
                 }
                 Log.e("start", "start");
-            }
-        });
-
-        Button saveNewActor = (Button) findViewById(R.id.saveNewActor);
-        saveNewActor.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Actor actor = new Actor();
-
-                EditText name = (EditText) findViewById(R.id.actorName);
-                EditText description = (EditText) findViewById(R.id.actorDescription);
-                EditText phoneNumber = (EditText) findViewById(R.id.actorPhoneNumber);
-
-                actor.setName(name.getText().toString());
-                actor.setDescription(description.getText().toString());
-                DatabaseReference actors = mDatabase.child("actors").push();
-                String actorsKey = actors.getKey(); // newly generated key
-                actors.setValue(actor);
-
-                name.setText("");
-                description.setText("");
-                phoneNumber.setText("");
             }
         });
 
@@ -122,13 +99,28 @@ public class AddActorsToProjectFragment extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.save_actor) {
+            EditText des = (EditText) findViewById(R.id.actorDescription);
+            EditText name = (EditText) findViewById(R.id.actorName);
+            if (!selectedKeys.isEmpty()) {
+                Actor actor = new Actor();
+                actor.setDescription(des.getText().toString());
+                actor.setName(name.getText().toString());
+                actor.setUSER(selectedKeys);
+                DatabaseReference actors = mDatabase.child("actors").push();
+                String actorsKey = actors.getKey(); // newly generated key
+                actors.setValue(actor);
 
-            mDatabase.child("projects").child(projectKey).child("ACTOR").setValue(selectedKeys);
+                mDatabase.child("projects").child(projectKey).child("ACTOR").setValue(actorsKey);
 
-            Log.e("start", "start");
-            Intent i = new Intent(AddActorsToProjectFragment.this, MainActivity.class);
-            startActivity(i);
-            return true;
+                Log.e("start", "start");
+                Intent i = new Intent(AddActorsToProjectFragment.this, MainActivity.class);
+                startActivity(i);
+                return true;
+            } else {
+                Snackbar.make(this.findViewById(android.R.id.content), "Geen user geselecteerd", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                return false;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

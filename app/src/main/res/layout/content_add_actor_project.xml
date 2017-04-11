@@ -23,10 +23,17 @@
         android:weightSum="1">
 
         <TextView
-            android:text="Selecteer actoren"
+            android:text="Selecteer users"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView4" />
+
+        <TextView
+            android:text="Actor informatie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:textStyle="normal|bold" />
 
         <ListView
             android:layout_width="match_parent"
@@ -35,14 +42,7 @@
             android:layout_weight="0.55" />
 
         <TextView
-            android:text="Of voeg een nieuwe actor toe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView6"
-            android:textStyle="normal|bold" />
-
-        <TextView
-            android:text="Actor"
+            android:text="Naam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView5" />
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Naam actor"
+            android:text="Naam actor template"
             android:ems="10"
             android:id="@+id/actorName" />
 
@@ -65,29 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:text="Beschrijving actor"
+            android:text="Beschrijving actortemplate"
             android:ems="10"
             android:id="@+id/actorDescription" />
-
-        <TextView
-            android:text="Telefoonnummer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView8" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:text="Telefoon actor"
-            android:ems="10"
-            android:id="@+id/actorPhoneNumber" />
-
-        <Button
-            android:text="Actor toevoegen aan lijst"
-            android:layout_width="wrap_content"
-            android:id="@+id/saveNewActor"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </RelativeLayout>
