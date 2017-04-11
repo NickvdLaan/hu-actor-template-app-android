@@ -1,5 +1,8 @@
 package com.gitgud.actortemplateapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by martijn on 04/04/17.
  */
@@ -9,6 +12,7 @@ public class Actor {
     private String description;
     private String phoneNumber;
     private String image;
+    private List<String> USER = new ArrayList<>();
 
     public Actor(String name, String description, String phoneNumber, String image) {
         this.name = name;
@@ -18,6 +22,14 @@ public class Actor {
     }
 
     public Actor() {
+    }
+
+    public List<String> getUSER() {
+        return USER;
+    }
+
+    public void setUSER(List<String> USER) {
+        this.USER = USER;
     }
 
     public String getName() {
