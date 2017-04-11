@@ -46,17 +46,19 @@ public class UserAdapter extends ArrayAdapter<User> {
 
             // Add user for list
             tv1.setText(user.getName());
-            if (!user.getEmail().isEmpty()) {
-                tv3.setText(user.getPhoneNumber());
+            if (user.getEmail() != null) {
+                tv2.setText(user.getEmail());
             } else {
-                ImageView phone = (ImageView) v.findViewById(R.id.phoneIcon);
-                phone.setVisibility(View.GONE);
+                ImageView email = (ImageView) v.findViewById(R.id.emailIcon);
+                email.setVisibility(View.GONE);
+                tv2.setVisibility(View.GONE);
             }
-            if (!user.getPhoneNumber().isEmpty()) {
+            if (user.getPhoneNumber() != null) {
                 tv3.setText(user.getPhoneNumber());
             } else {
                 ImageView phone = (ImageView) v.findViewById(R.id.phoneIcon);
                 phone.setVisibility(View.GONE);
+                tv3.setVisibility(View.GONE);
             }
         }
 
