@@ -3,9 +3,6 @@ package com.gitgud.actortemplateapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by martijn on 04/04/17.
  */
@@ -14,17 +11,17 @@ public class ProjectEntry implements Parcelable {
     private String name;
     private String description;
     private String createdAt;
-    private List<String> ACTOR = new ArrayList<>();
+    private String ACTOR;
     private String USER;
 
     public ProjectEntry() {
     }
 
-    public List<String> getACTOR() {
+    public String getACTOR() {
         return ACTOR;
     }
 
-    public void setACTOR(List<String> ACTOR) {
+    public void setACTOR(String ACTOR) {
         this.ACTOR = ACTOR;
     }
 
@@ -64,12 +61,7 @@ public class ProjectEntry implements Parcelable {
         name = in.readString();
         description = in.readString();
         createdAt = in.readString();
-        if (in.readByte() == 0x01) {
-            ACTOR = new ArrayList<String>();
-            in.readList(ACTOR, String.class.getClassLoader());
-        } else {
-            ACTOR = null;
-        }
+        ACTOR = in.readString();
         USER = in.readString();
     }
 
@@ -83,12 +75,7 @@ public class ProjectEntry implements Parcelable {
         dest.writeString(name);
         dest.writeString(description);
         dest.writeString(createdAt);
-        if (ACTOR == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(ACTOR);
-        }
+        dest.writeString(ACTOR);
         dest.writeString(USER);
     }
 
