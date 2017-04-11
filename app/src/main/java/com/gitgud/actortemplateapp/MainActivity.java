@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        if (!user.getAdmin()) {
+                        if (user != null && !user.getAdmin()) {
                             FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
                             button.setVisibility(View.GONE);
                         }
