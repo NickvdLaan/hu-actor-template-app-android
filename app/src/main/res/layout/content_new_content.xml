@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Naam"
+                android:hint="Naam"
                 android:ems="10"
                 android:id="@+id/naam" />
 
@@ -50,7 +50,7 @@
                 android:inputType="textMultiLine"
                 android:ems="10"
                 android:id="@+id/omschrijving"
-                android:text="Omschrijving" />
+                android:hint="Omschrijving" />
 
         </LinearLayout>
 

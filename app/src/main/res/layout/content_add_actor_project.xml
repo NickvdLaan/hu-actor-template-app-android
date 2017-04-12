@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Naam actor template"
+            android:hint="Naam actor template"
             android:ems="10"
             android:id="@+id/actorName" />
 
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:text="Beschrijving actortemplate"
+            android:hint="Beschrijving actortemplate"
             android:ems="10"
             android:id="@+id/actorDescription" />
 
